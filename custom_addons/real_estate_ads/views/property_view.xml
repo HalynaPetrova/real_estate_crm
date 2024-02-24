@@ -37,6 +37,32 @@
                                 <field name="selling_price"/>
                             </group>
                         </group>
+                        <notebook>
+
+                            <page string="Description">
+                                <group>
+                                    <field name="description"/>
+                                    <field name="bedrooms"/>
+                                    <field name="living_area"/>
+                                    <field name="facades"/>
+                                    <field name="garage" widget="boolean_toggle"/>
+                                    <field name="garden"/>
+                                    <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
+                                    <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="radio"/>
+                                    <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="selection_badge"/>
+                                </group>
+
+                            </page>
+                            <page string="Offers">
+                                <field name="offer_ids">
+                                    <tree editable="bottom" decoration-success="status == 'accepted'" decoration-danger="status == 'refused'">
+                                        <field name="price"/>
+                                        <field name="partner_id"/>
+                                        <field name="status" readonly="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
