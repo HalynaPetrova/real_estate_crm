@@ -31,6 +31,8 @@ class Property(models.Model):
     type_id = fields.Many2one('estate.property.type', string="Property Type")
     tag_ids = fields.Many2many('estate.property.tag', string="Property Tag")
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string="Offers")
+    sales_id = fields.Many2one('res.users', string="Salesman")
+    buyer_id = fields.Many2one('res.partner', string="Buyer", domain=[('is_company', '=', True)])
 
 
 class PropertyType(models.Model):
