@@ -6,7 +6,6 @@ class Property(models.Model):
     _description = 'Estate Properties'
 
     name = fields.Char(string="Name", required=True)
-    type_id = fields.Many2one('estate.property.type', string="Property Type")
     state = fields.Selection([
         ('new', 'New'),
         ('received', 'Offer Received'),
@@ -29,6 +28,8 @@ class Property(models.Model):
     garden_orientation = fields.Selection(
         [('north', 'North'), ('south', 'South'), ('east', 'East'), ('west', 'West')],
         string="Garden Orientation", default='north')
+    type_id = fields.Many2one('estate.property.type', string="Property Type")
+    tag_ids = fields.Many2many('estate.property.tag', string="Property Tag")
 
 
 class PropertyType(models.Model):
@@ -36,3 +37,11 @@ class PropertyType(models.Model):
     _description = 'Property Type '
 
     name = fields.Char(string="Name", required=True)
+
+
+class PropertyTag(models.Model):
+    _name = 'estate.property.tag'
+    _description = 'Property Tag '
+
+    name = fields.Char(string="Name", required=True)
+    color = fields.Integer(string="Color")
