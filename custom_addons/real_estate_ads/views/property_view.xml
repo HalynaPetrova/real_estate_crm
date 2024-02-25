@@ -50,6 +50,8 @@
                                     <field name="garden_area" attrs="{'invisible': [('garden', '=', False)]}"/>
                                     <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="radio"/>
                                     <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="selection_badge"/>
+                                    <field name="total_area"/>
+
                                 </group>
 
                             </page>
@@ -58,9 +60,18 @@
                                     <tree editable="bottom" decoration-success="status == 'accepted'" decoration-danger="status == 'refused'">
                                         <field name="price"/>
                                         <field name="partner_id"/>
+                                        <field name="creation_date"/>
+                                        <field name="validity"/>
+                                        <field name="deadline" widget="remaining_days"/>
                                         <field name="status" readonly="1"/>
                                     </tree>
                                 </field>
+                            </page>
+                             <page string="Other Info">
+                                <group>
+                                    <field name="sales_id" widget="many2one_avatar_user"/>
+                                    <field name="buyer_id"/>
+                                </group>
                             </page>
                         </notebook>
                     </sheet>
