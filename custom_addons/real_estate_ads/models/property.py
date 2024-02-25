@@ -34,10 +34,16 @@ class Property(models.Model):
     sales_id = fields.Many2one('res.users', string="Salesman")
     buyer_id = fields.Many2one('res.partner', string="Buyer", domain=[('is_company', '=', True)])
     total_area = fields.Integer(string='Total Area')
+    offer_count = fields.Integer(srting="Offer Count", compute="_compute_offer_count")
 
     @api.onchange("living_area", "garden_area")
     def _onchange_total_area(self):
         self.total_area = self.living_area + self.garden_area
+
+    @api.depends('offer_ids')
+    def _compute_offer_count(self):
+        for rec in self:
+            rec.offer_count = len(rec.offer_ids)
 
     def action_sold(self):
         self.state = 'sold'
