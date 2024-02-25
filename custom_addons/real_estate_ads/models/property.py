@@ -39,6 +39,12 @@ class Property(models.Model):
     def _onchange_total_area(self):
         self.total_area = self.living_area + self.garden_area
 
+    def action_sold(self):
+        self.state = 'sold'
+
+    def action_cancel(self):
+        self.state = 'cancel'
+
 
 class PropertyType(models.Model):
     _name = 'estate.property.type'
