@@ -1,0 +1,7 @@
+![Знімок екрана з 2024-02-26 15-40-57](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/8e6d79d9-0b67-40cc-ad23-2e085c93e281)
+![Знімок екрана з 2024-02-26 15-40-28](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/c4d779c8-953e-4612-8b3b-11ff23c4e2d0)
+![Знімок екрана з 2024-02-26 15-29-49](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/d91f925a-683d-42b7-bd6e-07ee4875d6f0)
+![Знімок екрана з 2024-02-26 15-27-13](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/379866cc-708a-48f7-a92d-4779a84c1e2c)
+![Знімок екрана з 2024-02-26 15-27-56](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/b26b950b-5df7-4b36-adba-86b491cdb91a)
+![Знімок екрана з 2024-02-26 15-48-12](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/57e092ef-0578-4b22-9d66-04beaffd6352)
+![Знімок екрана з 2024-02-26 15-28-13](https://github.com/HalynaPetrova/real_estate_crm/assets/92261713/eab58c0d-a56a-450c-b3c2-9cd5deab7fe6)
