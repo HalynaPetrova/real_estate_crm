@@ -18,14 +18,16 @@
                     <field name="type_id"/>
                     <field name="postcode"/>
                     <field name="date_availability"/>
-                    <field name="expected_price"/>
-                    <field name="best_offer"/>
-                    <field name="selling_price"/>
+                    <field name="state" widget="badge"/>
+                    <field name="expected_price" widget="monetary"/>
+                    <field name="best_offer" widget="monetary"/>
+                    <field name="selling_price" widget="monetary"/>
+                    <field name="currency_id" invisible="1"/>
                 </tree>
             </field>
         </record>
 
-        <record id="estate_property_pivot_view" model="ir.ui.view">
+         <record id="estate_property_pivot_view" model="ir.ui.view">
             <field name="name">estate.property.pivot</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
@@ -105,7 +107,20 @@
             </field>
         </record>
 
-        <record id="estate_property_calendar_view" model="ir.ui.view">
+        <record id="quick_create_estate_property_form_view" model="ir.ui.view">
+            <field name="name">estate.property.form</field>
+            <field name="model">estate.property</field>
+            <field name="priority">1000</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </form>
+            </field>
+        </record>
+
+         <record id="estate_property_calendar_view" model="ir.ui.view">
             <field name="name">estate.property.calendar</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
@@ -117,7 +132,7 @@
             </field>
         </record>
 
-         <record id="estate_property_form_view" model="ir.ui.view">
+        <record id="estate_property_form_view" model="ir.ui.view">
             <field name="name">estate.property.form</field>
             <field name="model">estate.property</field>
             <field name="arch" type="xml">
@@ -134,7 +149,8 @@
                             </button>
                         </div>
                         <group>
-                            <field name="name"/>
+                            <field name="name" widget="char_emojis" placeholder="Property Name"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <group>
                                 <field name="state"/>
                                 <field name="type_id"/>
@@ -142,13 +158,13 @@
                                 <field name="date_availability"/>
                             </group>
                             <group>
-                                <field name="expected_price"/>
-                                <field name="best_offer"/>
-                                <field name="selling_price"/>
+                                <field name="expected_price" widget="monetary"/>
+                                <field name="best_offer" widget="monetary"/>
+                                <field name="selling_price" widget="monetary"/>
+                                <field name="currency_id" invisible="1"/>
                             </group>
                         </group>
                         <notebook>
-
                             <page string="Description">
                                 <group>
                                     <field name="description"/>
@@ -161,28 +177,29 @@
                                     <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="radio"/>
                                     <field name="garden_orientation" attrs="{'invisible': [('garden', '=', False)]}" widget="selection_badge"/>
                                     <field name="total_area"/>
-
                                 </group>
 
                             </page>
                             <page string="Offers">
                                 <field name="offer_ids">
                                     <tree editable="bottom" decoration-success="status == 'accepted'" decoration-danger="status == 'refused'">
-                                        <field name="price"/>
+                                        <field name="price" widget="monetary"/>
+                                        <field name="currency_id" invisible="1"/>
                                         <field name="partner_id"/>
-                                        <field name="creation_date"/>
+                                        <field name="creation_date" invisible="1"/>
                                         <field name="validity"/>
                                         <field name="deadline" widget="remaining_days"/>
                                         <field name="status" readonly="1"/>
-<!--                                        <button name="action_accept_offer" type="object" icon="fa-check" string="Accept"/>-->
-<!--                                        <button name="action_decline_offer" type="object" icon="fa-times" string="Decline"/>-->
+                                        <button name="action_accept_offer" type="object" icon="fa-check" string="Accept"/>
+                                        <button name="action_decline_offer" type="object" icon="fa-times" string="Decline"/>
                                     </tree>
                                 </field>
                             </page>
-                             <page string="Other Info">
+                            <page string="Other Info">
                                 <group>
                                     <field name="sales_id" widget="many2one_avatar_user"/>
                                     <field name="buyer_id"/>
+                                    <field name="phone"/>
                                 </group>
                             </page>
                         </notebook>
@@ -191,16 +208,40 @@
             </field>
         </record>
 
+
         <record id="action_property" model="ir.actions.act_window">
             <field name="name">Property</field>
             <field name="res_model">estate.property</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="estate_property_tree_view"/>
+            <field name="view_mode">kanban,graph,calendar,pivot,tree,form</field>
+            <field name="view_id" ref="estate_property_kanban_view"/>
             <field name="help" type="html">
                 <p class="o_view_nocontent_smiling_face">
                     Create a Property to Advertise
                 </p>
             </field>
         </record>
+
+        <record id="action_extend_offer_deadline" model="ir.actions.server">
+            <field name="name">Extend Deadline</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="binding_view_types">list,form</field>
+            <field name="code">
+                action = model.extend_offer_deadline()
+            </field>
+        </record>
+
+        <record id="ir+cron_extend_offer_deadline" model="ir.cron">
+            <field name="name">Offers: Extend Deadline Everyday</field>
+            <field name="model_id" ref="real_estate_ads.model_estate_property_offer"/>
+            <field name="state">code</field>
+            <field name="code">model._extend_offer_deadline()</field>
+            <field name="interval_number">1</field>
+            <field name="numbercall">-1</field>
+<!--            <field name="active" eval="False"/>-->
+<!--            <field name="doall" eval=""/>-->
+        </record>
+
     </data>
 </odoo>

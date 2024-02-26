@@ -12,13 +12,13 @@ class Property(models.Model):
         ('accepted', 'Offer Accepted'),
         ('sold', 'Sold'),
         ('cancel', 'Cancel')
-    ], default='new', string="Status")
+    ], default='new', string="Status", group_expand="_expand_state")
     description = fields.Text(string="Description")
     postcode = fields.Char(string="Postcode")
     date_availability = fields.Date(string="Available Form")
-    expected_price = fields.Float(string="Expected Price", tracking=True)
-    best_offer = fields.Float(string="Best Offer", compute="_compute_best_price")
-    selling_price = fields.Float(string="Selling Price", readonly=True)
+    expected_price = fields.Monetary(string="Expected Price", tracking=True)
+    best_offer = fields.Monetary(string="Best Offer", compute="_compute_best_price")
+    selling_price = fields.Monetary(string="Selling Price", readonly=True)
     bedrooms = fields.Integer(string="Bedrooms")
     living_area = fields.Integer(string="Living Area(sqm)")
     facades = fields.Integer(string="Facades")
@@ -33,8 +33,11 @@ class Property(models.Model):
     offer_ids = fields.One2many('estate.property.offer', 'property_id', string="Offers")
     sales_id = fields.Many2one('res.users', string="Salesman")
     buyer_id = fields.Many2one('res.partner', string="Buyer", domain=[('is_company', '=', True)])
-    total_area = fields.Integer(string='Total Area')
+    total_area = fields.Integer(string="Total Area")
+    phone = fields.Char(string='Phone', related='buyer_id.phone')
     offer_count = fields.Integer(srting="Offer Count", compute="_compute_offer_count")
+    currency_id = fields.Many2one("res.currency", string="Currency",
+                                  default=lambda self: self.env.user.company_id.currency_id)
 
     @api.onchange("living_area", "garden_area")
     def _onchange_total_area(self):
@@ -54,9 +57,11 @@ class Property(models.Model):
             "res_model": "estate.property.offer",
         }
 
-    def _get_report_base_filename(self):
-        self.ensure_one()
-        return "Estate Property - %s" % self.name
+    def action_sold(self):
+        self.state = 'sold'
+
+    def action_cancel(self):
+        self.state = 'cancel'
 
     @api.depends('offer_ids')
     def _compute_best_price(self):
@@ -66,11 +71,14 @@ class Property(models.Model):
             else:
                 rec.best_offer = 0
 
-    def action_sold(self):
-        self.state = 'sold'
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return "Estate Property - %s" % self.name
 
-    def action_cancel(self):
-        self.state = 'cancel'
+    def _expand_state(self, states, domain, order):
+        return [
+            key for key, dummy in type(self).state.selection
+        ]
 
 
 class PropertyType(models.Model):
