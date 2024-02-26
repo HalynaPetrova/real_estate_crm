@@ -14,6 +14,8 @@
         'views/property_tag_view.xml',
         'views/property_offer_view.xml',
         'views/menu_items.xml',
+        'report/report_template.xml',
+        'report/property_report.xml',
     ],
     "installable": True,
     "application": True,

@@ -54,6 +54,10 @@ class Property(models.Model):
             "res_model": "estate.property.offer",
         }
 
+    def _get_report_base_filename(self):
+        self.ensure_one()
+        return "Estate Property - %s" % self.name
+
     @api.depends('offer_ids')
     def _compute_best_price(self):
         for rec in self:
