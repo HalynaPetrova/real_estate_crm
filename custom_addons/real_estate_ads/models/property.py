@@ -54,6 +54,14 @@ class Property(models.Model):
             "res_model": "estate.property.offer",
         }
 
+    @api.depends('offer_ids')
+    def _compute_best_price(self):
+        for rec in self:
+            if rec.offer_ids:
+                rec.best_offer = max(rec.offer_ids.mapped('price'))
+            else:
+                rec.best_offer = 0
+
     def action_sold(self):
         self.state = 'sold'
 

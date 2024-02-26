@@ -35,20 +35,20 @@ class PropertyOffer(models.Model):
     def _set_create_date(self):
         return fields.Date.today()
 
-    @api.depends('validity', 'creation_date')
-    def _compute_deadline(self):
-        for rec in self:
-            if rec.creation_date and rec.validity:
-                rec.deadline = rec.creation_date + timedelta(days=rec.validity)
-            else:
-                rec.deadline = False
-
-    def _inverse_deadline(self):
-        for rec in self:
-            if rec.deadline and rec.creation_date:
-                rec.validity = (rec.deadline - rec.creation_date).days
-            else:
-                rec.validity = False
+    # @api.depends('validity', 'creation_date')
+    # def _compute_deadline(self):
+    #     for rec in self:
+    #         if rec.creation_date and rec.validity:
+    #             rec.deadline = rec.creation_date + timedelta(days=rec.validity)
+    #         else:
+    #             rec.deadline = False
+    #
+    # def _inverse_deadline(self):
+    #     for rec in self:
+    #         if rec.deadline and rec.creation_date:
+    #             rec.validity = (rec.deadline - rec.creation_date).days
+    #         else:
+    #             rec.validity = False
 
     # _sql_constraints = [
     #     ('check_validity', 'check(validity > 0)', "Date must be greater than or equal to creation")
