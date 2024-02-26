@@ -77,5 +77,13 @@ class PropertyOffer(models.Model):
                 "state": "received",
             })
 
+    def _validate_accepted_offer(self):
+        offer_ids = self.env['estate.property.offer'].search([
+            ("property_id", "=", self.property_id.id),
+            ("status", "=", "accepted"),
+        ])
+        if offer_ids:
+            raise ValidationError("You have already accepted")
+
 
 
