@@ -25,6 +25,20 @@
             </field>
         </record>
 
+        <record id="estate_property_pivot_view" model="ir.ui.view">
+            <field name="name">estate.property.pivot</field>
+            <field name="model">estate.property</field>
+            <field name="arch" type="xml">
+                <pivot>
+                    <field name="name" type="row"/>
+                    <field name="selling_price" type="measure"/>
+                    <field name="expected_price" type="measure"/>
+                    <field name="facades" type="measure"/>
+                    <field name="bedrooms" type="measure"/>
+                </pivot>
+             </field>
+        </record>
+
         <record id="estate_property_search_view" model="ir.ui.view">
             <field name="name">estate.property.search</field>
             <field name="model">estate.property</field>
