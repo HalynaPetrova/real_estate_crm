@@ -45,6 +45,15 @@ class Property(models.Model):
         for rec in self:
             rec.offer_count = len(rec.offer_ids)
 
+    def action_property_view_offers(self):
+        return {
+            "type": "ir.actions.act_window",
+            "name": f"{self.name} - Offers",
+            "domain": [("property_id", "=", self.id)],
+            "view_mode": "tree",
+            "res_model": "estate.property.offer",
+        }
+
     def action_sold(self):
         self.state = 'sold'
 

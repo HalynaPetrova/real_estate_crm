@@ -6,7 +6,7 @@
             <field name="name">Property</field>
             <field name="res_model">estate.property.offer</field>
             <field name="view_mode">tree,form</field>
-            <field name="domain">[("property_id", "=", active_id)]</field>-->
+            <field name="domain">[("property_id", "=", active_id)]</field>
         </record>
 
         <record id="estate_property_tree_view" model="ir.ui.view">
@@ -82,6 +82,8 @@
                                         <field name="validity"/>
                                         <field name="deadline" widget="remaining_days"/>
                                         <field name="status" readonly="1"/>
+<!--                                        <button name="action_accept_offer" type="object" icon="fa-check" string="Accept"/>-->
+<!--                                        <button name="action_decline_offer" type="object" icon="fa-times" string="Decline"/>-->
                                     </tree>
                                 </field>
                             </page>
